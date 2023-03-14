@@ -1,0 +1,49 @@
+.member-page {
+    display: flex;
+    align-items: start;
+}
+
+.profile-card {
+    flex: 1 1 0;
+}
+
+.profile-card__image {
+    width: 100%;
+    object-fit: cover;
+}
+
+.profile-card__info-item span {
+    flex: 1 1 0;
+}
+
+.profile-card__info-item span:first-of-type {
+    font-weight: bold;
+}
+
+.member-info {
+    flex: 4 1 0;
+    margin: 0 1%;
+}
+
+.member-info__form {
+    display: flex;
+    flex-direction: column;
+    margin: 1%;
+    width: 50%;
+}
+
+.member-info__location-details {
+    display: flex;
+}
+
+.member-info__location-details mat-form-field {
+    width: 50%;
+}
+
+.member-info__location-details mat-form-field:first-of-type {
+    padding-right: 1%;
+}
+
+.member-info__location-details mat-form-field:last-of-type {
+    padding-left: 1%;
+}

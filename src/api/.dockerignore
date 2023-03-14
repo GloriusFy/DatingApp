@@ -1,0 +1,8 @@
+.dockerignore
+.gitignore
+
+.idea/
+
+**/bin/
+**/obj/
+**/logs/

@@ -1,0 +1,14 @@
+:host {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.home-section {
+    padding-top: 100px;
+    text-align: center;
+}
+
+.home-section__button {
+    margin: 0 5px;
+}

@@ -1,0 +1,44 @@
+<mat-card class="login-card">
+    <mat-card-title class="login-card__title">
+        Log in
+    </mat-card-title>
+
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <mat-card-content class="login-card__content">
+                <mat-form-field class="login-card__field">
+                    <mat-label>Email</mat-label>
+                    <input
+                        matInput
+                        formControlName="email"
+                        type="email"
+                        autocomplete="email"
+                        required
+                    >
+                </mat-form-field>
+
+                <mat-form-field class="login-card__field">
+                    <mat-label>Password</mat-label>
+                    <input
+                        matInput
+                        formControlName="password"
+                        type="password"
+                        autocomplete="current-password"
+                        required
+                    >
+                </mat-form-field>
+
+        </mat-card-content>
+
+        <mat-card-actions>
+            <button
+                    mat-raised-button
+                    color="primary"
+                    type="submit"
+                    class="login-card__submit-button"
+                    [disabled]="!loginForm.valid"
+                >
+                    Log me in!
+                </button>
+        </mat-card-actions>
+    </form>
+</mat-card>

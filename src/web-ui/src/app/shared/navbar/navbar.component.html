@@ -1,0 +1,80 @@
+<mat-toolbar
+    color="primary"
+>
+    <span>Dating App</span>
+
+    <nav class="nav">
+        <ng-container *ngIf="isUserAuthenticated$ | async">
+            <ul class="feature-list">
+                <li class="feature-list__item">
+                    <a
+                        mat-button
+                        class="feature-list__link"
+                        routerLink="/members"
+                        routerLinkActive="feature-list__link_active"
+                    >
+                        Search
+                    </a>
+                </li>
+                <li class="feature-list__item">
+                    <a
+                        mat-button
+                        class="feature-list__link"
+                        routerLink="/matches"
+                        routerLinkActive="feature-list__link_active"
+                    >
+                        Matches
+                    </a>
+                </li>
+                <!-- <li class="feature-list__item">
+                    <a
+                        mat-button
+                        class="feature-list__link"
+                        routerLink="/messages"
+                        routerLinkActive="feature-list__link_active"
+                    >
+                        Messages
+                    </a>
+                </li> -->
+            </ul>
+        </ng-container>
+    </nav>
+
+    <ng-container *ngIf="isUserAuthenticated$ | async">
+        <img daImageWithFallback [src]="(user$ | async)!.photoUrl" class="avatar">
+        <button
+            mat-icon-button
+            class="menu"
+            [matMenuTriggerFor]="menu"
+        >
+            <mat-icon>more_vert</mat-icon>
+        </button>
+    </ng-container>
+
+    <mat-menu #menu="matMenu">
+        <button
+            mat-menu-item
+            routerLink="/member/edit"
+        >
+            <span>Edit profile</span>
+        </button>
+        <button
+            mat-menu-item
+            (click)="logout()"
+        >
+            <span>Log out</span>
+        </button>
+    </mat-menu>
+
+    <ng-container *ngIf="!(isUserAuthenticated$ | async)">
+        <ul class="auth-nav-list">
+            <a
+                mat-raised-button
+                routerLink="/login"
+                class="auth-nav-list__link"
+            >
+                Log in
+            </a>
+        </ul>
+    </ng-container>
+</mat-toolbar>

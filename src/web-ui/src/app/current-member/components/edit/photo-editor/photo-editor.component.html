@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="album">
+        <mat-card *ngFor="let photo of photos" class="album__photo-card">
+            <img
+                daImageFallback
+                class="album__photo"
+                [src]="photo.url"
+            >
+            <mat-card-actions class="album__photo-actions">
+                <button
+                    mat-raised-button
+                    [disabled]="photo.isMain"
+                    (click)="onSetMainPhotoClick(photo)"
+                >
+                    Main
+                </button>
+                <button
+                    mat-icon-button
+                    [disabled]="photo.isMain"
+                    (click)="onPhotoDeleteClick(photo)"
+                >
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+
+    <div class="upload">
+        <button mat-stroked-button color="warn" (click)="fileInput.click()">
+            <mat-icon>file_upload</mat-icon>
+            Upload
+        </button>
+        <input #fileInput
+            id="image_uploads"
+            type="file"
+            multiple="false"
+            accept="image/*"
+            (change)="onFileInputChange($event)"
+        />
+        <mat-progress-bar *ngIf="uploadingProgress" [value]="uploadingProgress"></mat-progress-bar>
+    </div>
+</div>

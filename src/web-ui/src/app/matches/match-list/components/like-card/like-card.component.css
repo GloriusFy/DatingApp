@@ -1,0 +1,43 @@
+.card {
+    position: relative;
+    height: 100%;
+}
+
+.card:hover > .card__member-info {
+    opacity: 0.87;
+}
+
+.card__member-info {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    z-index: 5;
+    width: 100%;
+    height: 3rem;
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    opacity: 0;
+    transition-duration: 500ms;
+    transition-timing-function: ease-out;
+}
+
+.card__member-info-icon {
+    margin-left: auto;
+    margin-right: 1rem;
+}
+
+.card__member-info-title {
+    margin: 0;
+    margin-left: 1rem;
+}
+
+.card__member-online-indicator {
+    margin-left: 1rem;
+}
+
+.card__photo {
+    object-fit: cover;
+    flex: 1;
+    width: 100%;
+    height: 100%;
+}

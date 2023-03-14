@@ -1,0 +1,31 @@
+
+<ng-container *ngIf="likes$ | async as likes">
+    <h2 class="header">
+         {{ likes.length }} {{ currentLikeType === putLikeType ? "put likes" : "received likes" }} found
+    </h2>
+
+    <div class="button-container">
+        <mat-button-toggle-group
+            (change)="onLikeTypeChange($event)"
+        >
+            <mat-button-toggle [value]="putLikeType" checked>
+                Members I like
+            </mat-button-toggle>
+
+            <mat-button-toggle [value]="receivedLikeType">
+                Members who like me
+            </mat-button-toggle>
+        </mat-button-toggle-group>
+    </div>
+
+    <article
+        class="container like-list"
+    >
+        <da-like-card
+            *ngFor="let likedMember of likes"
+            [likedMember]="likedMember"
+        >
+        </da-like-card>
+    </article>
+
+</ng-container>

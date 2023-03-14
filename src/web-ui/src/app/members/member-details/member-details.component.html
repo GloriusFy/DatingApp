@@ -1,0 +1,87 @@
+<article
+    class="container member-page"
+>
+    <mat-card class="profile-card">
+        <mat-card-header>
+            <mat-card-title>{{ member.name }}</mat-card-title>
+            <da-online-status-indicator
+                class="profile-card__online-indicator"
+                *ngIf="online$ | async"
+            ></da-online-status-indicator>
+        </mat-card-header>
+
+        <img
+            daImageWithFallback
+            class="profile-card__image"
+            [src]="mainPhotoUrl"
+            [alt]="member.name"
+        >
+
+        <mat-card-content>
+            <mat-list>
+                <mat-list-item class="profile-card__info-item">
+                    <span>Location: </span>
+                    <span *ngIf="member.city && member.country; else unknown">{{ member.city }}, {{ member.country }}</span>
+                    <ng-template #unknown>
+                        <span>Unknown</span>
+                    </ng-template>
+                </mat-list-item>
+                <mat-list-item class="profile-card__info-item">
+                    <span>Date of birth: </span>
+                    <span>{{ member.dateOfBirth }}</span>
+                </mat-list-item>
+                <mat-list-item class="profile-card__info-item">
+                    <span>Last active: </span>
+                    <span>{{ member.lastActive | date:'short' }}</span>
+                </mat-list-item>
+                <mat-list-item class="profile-card__info-item">
+                    <span>Member since: </span>
+                    <span>{{ member.created | date: 'dd MMM yyyy' }}</span>
+                </mat-list-item>
+            </mat-list>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-tab-group class="member-info" [selectedIndex]="selectedTab">
+        <mat-tab label="About">
+            <h2>Description</h2>
+            <p *ngIf="member.briefDescription; else not_specified"> {{ member.briefDescription }} </p>
+
+            <h2>Looking for</h2>
+            <p *ngIf="member.lookingFor; else not_specified"> {{ member.lookingFor }} </p>
+        </mat-tab>
+
+        <mat-tab label="Interests">
+            <h2>Interests</h2>
+            <p *ngIf="member.interests; else not_specified"> {{ member.interests }} </p>
+        </mat-tab>
+
+        <mat-tab label="Photos">
+            <div *ngIf="member.photos && member.photos.length > 1; else no_photos" class="photo-gallery">
+                <ng-container *ngFor="let photo of member.photos">
+                    <img *ngIf="!photo.isMain"
+                        daImageWithFallback
+                        class="photo-gallery__photo"
+                        [src]="photo.url"
+                        [alt]="photo.name"
+                    >
+                </ng-container>
+            </div>
+        </mat-tab>
+
+        <mat-tab label="Messages">
+            <ng-template matTabContent>
+                <da-member-messages [chatBuddyId]="member.id"></da-member-messages>
+            </ng-template>
+        </mat-tab>
+    </mat-tab-group>
+
+</article>
+
+<ng-template #not_specified>
+    <p> It seems that member has not specified information yet😢</p>
+</ng-template>
+
+<ng-template #no_photos>
+    <h3> Member has not loaded any photos yet😢</h3>
+</ng-template>

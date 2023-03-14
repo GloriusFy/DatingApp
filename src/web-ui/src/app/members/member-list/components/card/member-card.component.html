@@ -1,0 +1,40 @@
+<mat-card class="member-card">
+    <mat-card-header>
+        <mat-card-title> {{ member.name }} </mat-card-title>
+        <mat-card-subtitle> {{ member.city || "city is not specified" }} </mat-card-subtitle>
+        <da-online-status-indicator
+            *ngIf="online$ | async"
+            class="member-card__online-indicator"
+        ></da-online-status-indicator>
+    </mat-card-header>
+
+    <div class="member-card__photo-wrapper">
+        <img
+            daImageWithFallback
+            class="member-card__photo"
+            [src]="member.mainPhotoUrl"
+            [alt]="member.name"
+        >
+
+        <ul class="member-card__action-container">
+            <button mat-mini-fab color="accent" [routerLink]="[member.id]">
+                <mat-icon>person</mat-icon>
+            </button>
+            <button
+                mat-mini-fab
+                color="accent"
+                (click)="onMemberLikeClick()"
+            >
+                <mat-icon>favorite</mat-icon>
+            </button>
+            <button
+                mat-mini-fab
+                color="accent"
+                [routerLink]="[member.id]"
+                [queryParams]="{tab: 3}"
+            >
+                <mat-icon>chat</mat-icon>
+            </button>
+        </ul>
+    </div>
+</mat-card>

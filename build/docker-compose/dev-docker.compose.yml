@@ -1,0 +1,63 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:13-alpine
+    container_name: dating-app-postgres
+    volumes:
+      - ../../infra-data/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=dating_app_user
+      - POSTGRES_PASSWORD=dating_app_password
+      - POSTGRES_DB=dating_app
+    ports:
+        - 7432:5432
+
+  minio:
+    image: minio/minio
+    container_name: dating-app-minio
+    ports:
+        - 9002:9000
+    volumes:
+        - ../../infra-data/minio/data:/data
+        - ../../infra-data/minio/.minio:/root/.minio
+    environment:
+        - MINIO_ACCESS_KEY=dating_app_access_key
+        - MINIO_SECRET_KEY=dating_app_secret_key
+    command: server /data
+
+  minio-create-buckets:
+    image: minio/mc
+    depends_on:
+        - minio
+    entrypoint: >
+        /bin/sh -c "
+        /usr/bin/mc config host add minio http://minio:9000 dating_app_access_key dating_app_secret_key --api s3v4;
+        while ! /usr/bin/mc mb minio/public ; do echo 'waiting for minio'; sleep 1; done;
+        /usr/bin/mc policy set download minio/public;
+        exit 0;
+        "
+
+  start_dependencies:
+    image: dadarek/wait-for-dependencies
+    depends_on:
+        - postgres
+        - minio
+        - minio-create-buckets
+    command: postgres:5432 minio:9000
+    environment:
+        - TIMEOUT_LENGTH=30
+
+  app:
+      build:
+          context: ../../src/back
+          dockerfile: ../../build/docker/App.Dockerfile
+          args:
+              - BUILD_NUMBER=dev-docker
+      image: dating-app:dev-docker
+      container_name: dating-app
+      environment:
+          - ASPNETCORE_ENVIRONMENT=DevDocker
+          - ASPNETCORE_URLS=http://+:5001
+      ports:
+          - 5001:5001

@@ -1,0 +1,99 @@
+<mat-card class="sign-up-card">
+    <mat-card-title class="sign-up-card__title">
+        Sign up
+    </mat-card-title>
+
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+        <mat-card-content class="sign-up-card__content">
+            <mat-form-field class="sign-up-card__field">
+                <mat-label>Email</mat-label>
+                <input
+                    matInput
+                    appearance="standard"
+                    formControlName="email"
+                    type="email"
+                    autocomplete="email"
+                >
+                <mat-error *ngIf="emailHasErrors">{{ emailError }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="sign-up-card__field">
+                <mat-label>Name</mat-label>
+                <input
+                    matInput
+                    appearance="standard"
+                    formControlName="name"
+                >
+                <mat-error *ngIf="nameHasErrors">{{ nameError }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="sign-up-card__field">
+                <mat-label>Date of birth</mat-label>
+                <input
+                    matInput
+                    appearance="standard"
+                    formControlName="dateOfBirth"
+                    [matDatepicker]="picker"
+                >
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="dateOfBirthHasErrors">{{ dateOfBirthError }}</mat-error>
+            </mat-form-field>
+
+            <div class="sign-up-card__gender-select-container">
+                <span>
+                    I am a
+                </span>
+                <mat-radio-group
+                    class="sign-up-card__gender-group"
+                    formControlName="gender"
+                    aria-label="Select a gender"
+                >
+                    <mat-radio-button [value]="maleGender">Male</mat-radio-button>
+                    <mat-radio-button [value]="femaleGender">Female</mat-radio-button>
+                </mat-radio-group>
+            </div>
+
+            <mat-form-field class="sign-up-card__field">
+                <mat-label>Password</mat-label>
+                <input
+                    matInput
+                    appearance="standard"
+                    formControlName="password"
+                    type="password"
+                    autocomplete="new-password"
+                >
+                <mat-error *ngIf="passwordHasErrors">{{ passwordError }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="sign-up-card__field">
+                <mat-label>Confirm password</mat-label>
+                <input
+                    matInput
+                    appearance="standard"
+                    formControlName="passwordConfirmation"
+                    type="password"
+                    autocomplete="new-password"
+                >
+                <mat-error *ngIf="passwordConfirmationHasErrors">{{ passwordConfirmationError }}</mat-error>
+            </mat-form-field>
+
+        </mat-card-content>
+
+        <mat-card-actions class="sign-up-card__actions">
+            <button
+                mat-raised-button
+                color="primary"
+                type="submit"
+                [disabled]="!registerForm.valid"
+            >
+                Register
+            </button>
+            <button
+                mat-raised-button
+            >
+                Cancel
+            </button>
+        </mat-card-actions>
+    </form>
+</mat-card>

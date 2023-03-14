@@ -1,0 +1,23 @@
+<div class="card">
+    <div class="card__member-info">
+        <h3 class="card__member-info-title"> {{ likedMember.name }} </h3>
+        <da-online-status-indicator
+            *ngIf="online$ | async"
+            class="card__member-online-indicator"
+        ></da-online-status-indicator>
+        <button
+            mat-mini-fab
+            color="primary"
+            class="card__member-info-icon"
+            [routerLink]="['/members/' + likedMember.id]"
+        >
+            <mat-icon>info</mat-icon>
+        </button>
+    </div>
+    <img
+        daImageWithFallback
+        class="card__photo"
+        [src]="likedMember.mainPhotoUrl"
+        [alt]="likedMember.name"
+    >
+</div>

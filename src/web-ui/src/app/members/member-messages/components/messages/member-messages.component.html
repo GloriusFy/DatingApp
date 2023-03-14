@@ -1,0 +1,67 @@
+<ng-container *ngIf="
+{
+    messages: messages$ | async,
+    currentUserId: currentUserId$ | async
+} as result"
+>
+
+    <div class="message-container">
+        <div class="message-container__history">
+            <h3
+                *ngIf="result.messages && result.messages.length === 0; else message_list"
+                class="message-container__history-empty-header"
+            >
+                No messages yet... say something by using the text box below
+            </h3>
+
+            <ng-template #message_list>
+                <ul>
+                    <li class="message-block" *ngFor="let message of result.messages">
+                        <div
+                            *ngIf="message.senderId !== result.currentUserId; then incoming; else outgoing"
+                            >
+                        </div>
+
+                        <ng-template #incoming>
+                            <div class="message-block__incoming-message">
+                                <p>{{ message.content }}</p>
+                            </div>
+                        </ng-template>
+
+                        <ng-template #outgoing>
+                            <div class="message-block__outgoing-message">
+                                <p>{{ message.content }}</p>
+                            </div>
+                        </ng-template>
+
+                    </li>
+                </ul>
+            </ng-template>
+        </div>
+
+        <form
+            class="message-form"
+            [formGroup]="form"
+            (ngSubmit)="sendMessage()"
+        >
+            <mat-form-field
+                class="message-form__input"
+                appearance="outline"
+            >
+                <input
+                    matInput
+                    placeholder="Send a private message"
+                    formControlName="text"
+                >
+                <button
+                    matSuffix
+                    mat-icon-button
+                    type="submit"
+                    [disabled]="!form.valid"
+                >
+                    <mat-icon>send</mat-icon>
+                </button>
+            </mat-form-field>
+        </form>
+    </div>
+</ng-container>

@@ -1,0 +1,16 @@
+.header {
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.like-list {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: 350px;
+    gap: 10px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+}

@@ -1,0 +1,107 @@
+<article
+    *ngIf="member$ | async as member"
+    class="container member-page"
+>
+    <mat-card class="profile-card">
+        <mat-card-title>Your profile</mat-card-title>
+
+        <img
+            daImageWithFallback
+            class="profile-card__image"
+            [src]="getMainPhotoUrl(member)"
+            [alt]="member.name"
+        >
+
+        <mat-card-content>
+            <mat-list>
+                <mat-list-item class="profile-card__info-item">
+                    <span>Location: </span>
+                    <span>{{ member.city }}, {{ member.country }}</span>
+                </mat-list-item>
+                <mat-list-item class="profile-card__info-item">
+                    <span>Date of birth: </span>
+                    <span>{{ member.dateOfBirth }}</span>
+                </mat-list-item>
+                <mat-list-item class="profile-card__info-item">
+                    <span>Last active: </span>
+                    <span>{{ member.lastActive | date:'short' }}</span>
+                </mat-list-item>
+                <mat-list-item class="profile-card__info-item">
+                    <span>Member since: </span>
+                    <span>{{ member.created | date: 'dd MMM yyyy' }}</span>
+                </mat-list-item>
+            </mat-list>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-tab-group class="member-info">
+        <mat-tab label="About">
+            <form
+                class="member-info__form"
+                [formGroup]="form"
+                (ngSubmit)="onSubmit()"
+            >
+                <mat-form-field appearance="outline">
+                    <mat-label>Description</mat-label>
+                    <textarea
+                        matInput
+                        rows="6"
+                        formControlName="description"
+                    ></textarea>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Looking for</mat-label>
+                    <textarea
+                        matInput
+                        rows="6"
+                        formControlName="lookingFor"
+                    ></textarea>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Interests</mat-label>
+                    <textarea
+                        matInput
+                        rows="6"
+                        formControlName="interests"
+                    ></textarea>
+                </mat-form-field>
+
+                <h4>Location details</h4>
+                <div
+                    class="member-info__location-details"
+                    formGroupName="locationDetails"
+                >
+                    <mat-form-field appearance="outline">
+                        <mat-label>City</mat-label>
+                        <input formControlName="city" matInput>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Country</mat-label>
+                        <input formControlName="country" matInput>
+                    </mat-form-field>
+                </div>
+
+                <button
+                    mat-raised-button
+                    type="submit"
+                    color="primary"
+                    [disabled]="!form.dirty"
+                >
+                    Save changes
+                </button>
+            </form>
+        </mat-tab>
+
+        <mat-tab label="Photos">
+            <da-photo-editor
+                [photos]="member.photos"
+                [uploadingProgress]="photoUploadingProgress$ | async"
+                (newPhotoUpload)="onNewPhotoUpload($event)"
+                (mainPhotoChange)="onMainPhotoChange($event)"
+                (photoDelete)="onPhotoDelete($event)"
+            ></da-photo-editor>
+        </mat-tab>
+    </mat-tab-group>
+</article>
